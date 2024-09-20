@@ -6,5 +6,5 @@ Repository for
 
 ## Tools
 ### Data Preparation
-#### Vision
-- [TFLite](tools/data_prep/vision)
+#### [Vision](tools/data_prep/vision)
+- [TFLite](tools/data_prep/vision/tflite.py)

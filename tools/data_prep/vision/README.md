@@ -1,4 +1,4 @@
-# [Tools](/tools) > [Data Preparation](/tools/data_prep) > [Vision](/tools/data_prep/vision)
+# [Tools](/tools) > [Data Preparation](/tools/data_prep) > Vision
 
 Create raw input and output for vision tasks.
 ## [TFlite](./tflite.py)
