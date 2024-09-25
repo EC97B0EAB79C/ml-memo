@@ -26,6 +26,26 @@ options:
   --offset OFFSET       Offset for uint8 -> fp32 conversion, required when datatype is set to fp32
 ```
 
+## [ONNX](./onnx.py)
+Usage:
+```bash
+$ ./onnx.py --help
+usage: onnx.py [-h] -m MODEL -i IMAGE [-o OUTPUT] [-f {bin,npy} [{bin,npy} ...]] [--scale SCALE] [--offset OFFSET]
+
+options:
+  -h, --help            show this help message and exit
+  -m MODEL, --model MODEL
+                        Model to create data for
+  -i IMAGE, --image IMAGE
+                        Image file to convert to raw data
+  -o OUTPUT, --output OUTPUT
+                        Output directory
+  -f {bin,npy} [{bin,npy} ...], --format {bin,npy} [{bin,npy} ...]
+                        Output format
+  --scale SCALE         Scale for uint8 -> fp32 conversion, required when datatype is set to fp32
+  --offset OFFSET       Offset for uint8 -> fp32 conversion, required when datatype is set to fp32
+```
+
 ## [Img](./img.py)
 Usage:
 ```bash
