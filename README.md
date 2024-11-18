@@ -12,4 +12,4 @@ Repository for
 - [Img](tools/data_prep/vision/img.py)
 
 ### [Quantizer](tools/quantizer)
-- [FP32 to UInt8](tools/quantizer/fp32_2_uint8.py)
+- [FP32 to UInt8](tools/data_prep/quantizer/fp32_2_uint8.py)
