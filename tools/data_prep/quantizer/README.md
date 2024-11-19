@@ -1,4 +1,4 @@
-# [Tools](/tools) > Quantizer
+# [Tools](/tools) > [Data Preparation](/tools/data_prep) > Quantizer
 
 Change data type for raw data.
 

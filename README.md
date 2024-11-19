@@ -13,3 +13,6 @@ Repository for
 
 ### [Quantizer](tools/quantizer)
 - [FP32 to UInt8](tools/data_prep/quantizer/fp32_2_uint8.py)
+
+### [Model Modifier](tools/model_mod)
+- [ONNX](tools/model_mod/onnx_mod.py)
