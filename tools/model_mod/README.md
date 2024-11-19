@@ -2,7 +2,7 @@
 
 Modify models for certain purpose.
 
-## [ONNX](./onnx.py)
+## [ONNX](./onnx_mod.py)
 Usage:
 ```bash
 ./onnx_mod.py --help
