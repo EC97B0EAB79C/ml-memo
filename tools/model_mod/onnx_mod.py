@@ -29,14 +29,28 @@ if args.debug:
     for output in model.graph.output:
         print(output.name, output.type)
 
-# Remove 'batch_size'
-for input in model.graph.input:
-    input_dim = input.type.tensor_type.shape.dim
-    input_dim[0].dim_value = 1
-for output in model.graph.output:
-    output_dim = output.type.tensor_type.shape.dim
-    output_dim[0].dim_value = 1
+# # Remove 'batch_size'
+# for input in model.graph.input:
+#     input_dim = input.type.tensor_type.shape.dim
+#     input_dim[0].dim_value = 1
+# for output in model.graph.output:
+#     output_dim = output.type.tensor_type.shape.dim
+#     output_dim[0].dim_value = 1
 
+# Remove Dropout Layers
+graph = model.graph
+dropout_nodes = [node for node in graph.node if node.op_type == "Dropout"]
+for dropout_node in dropout_nodes:
+    dropout_input = dropout_node.input[0]
+    dropout_output = dropout_node.output[0]
+
+    for node in graph.node:
+        for i, input_name in enumerate(node.input):
+            if input_name == dropout_output:
+                node.input[i] = dropout_input
+    graph.node.remove(dropout_node)
+
+# Save model
 onnx.save(model, args.output)
 
 if args.debug:
