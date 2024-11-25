@@ -12,14 +12,35 @@ args = parser.parse_args()
 ##
 # Verify model
 import onnx
+import onnxruntime as ort
+import numpy as np
 model = onnx.load(args.model)
 
-print("\n>> Model validation")
+print("\n>> ONNX Model validation")
 try:
     onnx.checker.check_model(model)
     print("Model is valid.")
 except onnx.checker.ValidationError as e:
     print(f"Model validation failed: {e}")
+    exit(1)
+
+
+print("\n>> ONNX inference validation")
+session = ort.InferenceSession(args.model)
+try:
+    input_data = {}
+    for input in session.get_inputs():
+        input_name = input.name
+        input_shape = input.shape
+        input_type = input.type
+        input_data[input_name] = np.random.rand(*[dim if isinstance(dim, int) else 1 for dim in input_shape]).astype(np.float32)
+        outputs = session.run(None, input_data)
+        print(f"Model inference succeeded.")
+        
+
+except Exception as e:
+    print(f"Model inference failed: {e}")
+    exit(1)        
 
 print("\n>> Model I/O")
 print("input:")
