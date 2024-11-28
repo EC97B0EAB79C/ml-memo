@@ -32,13 +32,6 @@ if args.debug:
     for output in model.graph.output:
         print(output.name, output.type)
 
-# # Remove 'batch_size'
-# for input in model.graph.input:
-#     input_dim = input.type.tensor_type.shape.dim
-#     input_dim[0].dim_value = 1
-# for output in model.graph.output:
-#     output_dim = output.type.tensor_type.shape.dim
-#     output_dim[0].dim_value = 1
 
 # Remove Dropout Layers
 graph = model.graph
