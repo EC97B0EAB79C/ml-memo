@@ -2,7 +2,7 @@ import onnx
 from onnx import helper, version_converter
 from onnx import shape_inference
 
-MODEL = "/home/c/Workspace/models/coverage/model/yolov3-12.onnx"
+MODEL = "yolov3-12.onnx"
 LAYER_DICT = {
     "input_1": [1,3,416,416],
     "image_shape":[1,2],
