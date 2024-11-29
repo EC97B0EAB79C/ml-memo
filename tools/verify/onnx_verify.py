@@ -7,6 +7,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument(
     "-m", "--model", type=str, required=True, help = "Model to create data for"
 )
+parser.add_argument(
+    "-a", "--all", action='store_true'
+)
 args = parser.parse_args()
 
 ##
@@ -30,6 +33,7 @@ session = ort.InferenceSession(args.model)
 try:
     input_data = {}
     for input in session.get_inputs():
+        print(input.name)
         input_name = input.name
         input_shape = input.shape
         input_type = input.type
@@ -47,3 +51,6 @@ for input in model.graph.input:
 print("output:")
 for output in model.graph.output:
     print(output.name, output.type)
+
+if args.all:
+    print(onnx.helper.printable_graph(model.graph))
