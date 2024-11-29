@@ -49,6 +49,26 @@ if len(dropout_nodes):
         graph.node.remove(dropout_node)
 
 
+# Remove Softmax Layers
+softmax_nodes = [node for node in graph.node if node.op_type == "Softmax"]
+if len(softmax_nodes):
+    print("Removing `Softmax` nodes")
+    for softmax_node in softmax_nodes:
+        softmax_input = softmax_node.input[0]
+        softmax_output = softmax_node.output[0]
+
+        for node in graph.node:
+            for i, input_name in enumerate(node.input):
+                if input_name == softmax_output:
+                    node.input[i] = softmax_input
+
+        for output in graph.output:
+            if output.name == softmax_output:
+                output.name = softmax_input
+
+        graph.node.remove(softmax_node)
+
+
 # Remove unnecessary model.graph.input
 original_inputs = {input.name for input in graph.input}
 used_inputs = set()
