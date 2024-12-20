@@ -16,6 +16,7 @@ Repository for
 
 ## [Model Modifier](tools/model_mod)
 - [ONNX](tools/model_mod/onnx_mod.py)
+- [ONNX Value Info](tools/model_mod/onnx_value_info.py)
 
 ## [Model Verifier](tools/verify)
 - [ONNX](tools/verify/onnx_verify.py)

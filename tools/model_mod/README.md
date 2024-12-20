@@ -35,3 +35,21 @@ options:
 ```
 
 ### [`onnx_dim_set`](./onnx_dim_set.py)
+
+### [`onnx_value_info`](./onnx_value_info.py)
+Adds `model.graph.value_info`
+
+
+Usage:
+```bash
+$ ./onnx_value_info.py --help
+usage: onnx_value_info.py [-h] -m MODEL [-o OUTPUT] [-d DIMS] [--force] [--debug]
+
+options:
+  -h, --help           show this help message and exit
+  -m, --model MODEL    Model to create data for
+  -o, --output OUTPUT  Output file name
+  -d, --dims DIMS      Dimension JSON file
+  --force
+  --debug
+```
