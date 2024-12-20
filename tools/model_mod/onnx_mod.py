@@ -26,8 +26,6 @@ from onnx import shape_inference
 import onnxruntime as ort
 
 model = onnx.load(args.model)
-graph = model.graph
-session = ort.InferenceSession(args.model)
 
 if args.debug:
     print("===Before===")
@@ -36,6 +34,13 @@ if args.debug:
     for output in model.graph.output:
         print(output.name, output.type)
 
+
+# Change opset
+if args.op:
+    print("Change OP set")
+    model = version_converter.convert_version(model, args.op)
+
+graph = model.graph
 
 # Remove Dropout Layers
 dropout_nodes = [node for node in graph.node if node.op_type == "Dropout"]
@@ -86,7 +91,11 @@ if sorted([n for n in original_inputs]) != sorted([input.name for input in new_i
     graph.input.extend(new_inputs)
 
 
+# Save before ORT
+onnx.save(model, args.output)
+
 # Change model.graph.input order
+session = ort.InferenceSession(args.output)
 ort_input_names = [input.name for input in session.get_inputs()]
 input_mapping = {input.name: input for input in graph.input}
 
@@ -99,18 +108,15 @@ if [input.name for input in reordered_inputs] != [input.name for input in model.
     graph.input.extend(reordered_inputs)
 
 
-# Change opset
-if args.op:
-    print("Change OP set")
-    model = version_converter.convert_version(model, args.op)
-
 # Save model
 onnx.save(model, args.output)
 
 
 if args.debug:
     print("===After===")
+    print("input:")
     for input in model.graph.input:
         print(input.name, input.type)
+    print("output:")
     for output in model.graph.output:
         print(output.name, output.type)

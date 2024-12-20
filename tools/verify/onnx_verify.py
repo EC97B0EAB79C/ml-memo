@@ -33,7 +33,6 @@ session = ort.InferenceSession(args.model)
 try:
     input_data = {}
     for input in session.get_inputs():
-        print(input.name)
         input_name = input.name
         input_shape = input.shape
         input_type = input.type
