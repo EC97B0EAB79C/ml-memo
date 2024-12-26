@@ -8,7 +8,7 @@ parser.add_argument(
     "-m", "--model", type=str, required=True, help = "Model to create data for"
 )
 parser.add_argument(
-    "-a", "--all", action='store_true'
+    "-a", "--all", action='store_true', help="Print all model information"
 )
 args = parser.parse_args()
 

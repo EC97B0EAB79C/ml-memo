@@ -20,3 +20,4 @@ Repository for
 
 ## [Model Verifier](tools/verify)
 - [ONNX](tools/verify/onnx_verify.py)
+- [LiteRT](tools/verify/tflite_verify.py)
