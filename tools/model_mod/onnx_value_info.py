@@ -13,12 +13,6 @@ parser.add_argument(
 parser.add_argument(
     "-d", "--dims", type=str, help = "Dimension JSON file"
 )
-parser.add_argument(
-    "--force", action='store_true'
-)
-parser.add_argument(
-    "--debug", action='store_true'
-)
 args = parser.parse_args()
 
 import json

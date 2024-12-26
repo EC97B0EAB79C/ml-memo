@@ -15,8 +15,10 @@ Repository for
 - [FP32 to UInt8](tools/data_prep/quantizer/fp32_2_uint8.py)
 
 ## [Model Modifier](tools/model_mod)
-- [ONNX](tools/model_mod/onnx_mod.py)
-- [ONNX Value Info](tools/model_mod/onnx_value_info.py)
+- [ONNX Mod](tools/model_mod/onnx_mod.py): Modifies ONNX model
+- [ONNX rm Node](tools/model_mod/onnx_rm_node.py): Remove node from ONNX model
+- [ONNX Dim Set](tools/model_mod/onnx_dim_set.py): Set dimension of ONNX model
+- [ONNX Value Info](tools/model_mod/onnx_value_info.py): Add value info to ONNX model
 
 ## [Model Verifier](tools/verify)
 - [ONNX](tools/verify/onnx_verify.py)

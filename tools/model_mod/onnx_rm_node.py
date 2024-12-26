@@ -24,9 +24,6 @@ import onnx
 from onnx import helper, version_converter
 from onnx import shape_inference
 
-RM_NODE = ["yolonms_layer_1/non_max_suppression/NonMaxSuppressionV3", "Cast"]
-RM_OUTPUT = ["yolonms_layer_1/concat_2:0"]
-
 model = onnx.load(args.model)
 graph = model.graph
 

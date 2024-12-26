@@ -1,17 +1,33 @@
+#!/usr/bin/env python
+import argparse
+
+##
+# Parse arguments
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "-m", "--model", type=str, required=True, help = "Model to create data for"
+)
+parser.add_argument(
+    "-o", "--output", type=str, default = "./modified.onnx", help = "Output file name"
+)
+parser.add_argument(
+    "-d", "--dims", type=str, help = "Dimension JSON file"
+)
+parser.add_argument(
+    "--force", action='store_true', help="Force set all dynamic dims to 1"
+)
+args = parser.parse_args()
+
+import json
 import onnx
 from onnx import helper, version_converter
 from onnx import shape_inference
 
-MODEL = "yolov3-12.onnx"
-LAYER_DICT = {
-    "input_1": [1,3,416,416],
-    "image_shape":[1,2],
-    "yolonms_layer_1/ExpandDims_1:0": [1, 10647, 4],
-    "yolonms_layer_1/ExpandDims_3:0": [1, 80, 10647],
-}
-MODIFIED_MODEL = "./modified.onnx"
+LAYER_DICT = {}
+with open(args.dims) as f:
+    LAYER_DICT = json.load(f)
 
-model = onnx.load(MODEL)
+model = onnx.load(args.model)
 print("===Before===")
 for input in model.graph.input:
     print(input.name, input.type)
@@ -19,11 +35,13 @@ for output in model.graph.output:
     print(output.name, output.type)
 
 
+model = shape_inference.infer_shapes(model)
 graph = model.graph
 
 for input_tensor in graph.input:
     if input_tensor.name not in LAYER_DICT:
         continue
+    print(f"Modifying {input_tensor.name}")
     new_dims = LAYER_DICT[input_tensor.name]
     for idx, d in enumerate(new_dims):
         input_tensor.type.tensor_type.shape.dim[idx].dim_value = d
@@ -31,10 +49,28 @@ for input_tensor in graph.input:
 for output_tensor in graph.output:
     if output_tensor.name not in LAYER_DICT:
         continue
+    print(f"Modifying {output_tensor.name}")
     new_dims = LAYER_DICT[output_tensor.name]
     for idx, d in enumerate(new_dims):
         output_tensor.type.tensor_type.shape.dim[idx].dim_value = d
 
+for value_info in model.graph.value_info:
+    if value_info.name not in LAYER_DICT:
+        continue
+    print(f"Modifying {value_info.name}")
+    new_dims = LAYER_DICT[value_info.name]
+    for idx, d in enumerate(new_dims):
+        value_info.type.tensor_type.shape.dim[idx].dim_value = d
+
+model = shape_inference.infer_shapes(model)
+graph = model.graph
+
+if args.force:
+    for value_info in model.graph.value_info:
+        for dim in value_info.type.tensor_type.shape.dim:
+            if dim.dim_param:
+                dim.dim_param = ""
+                dim.dim_value = 1
 
 print("===After===")
 for input in model.graph.input:
@@ -43,4 +79,4 @@ for output in model.graph.output:
     print(output.name, output.type)
 
 
-onnx.save(model, MODIFIED_MODEL)
+onnx.save(model, args.output)
