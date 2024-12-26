@@ -36,14 +36,23 @@ try:
         input_name = input.name
         input_shape = input.shape
         input_type = input.type
-        input_data[input_name] = np.random.rand(*[dim if isinstance(dim, int) else 1 for dim in input_shape]).astype(np.float32)
+        input_data[input_name] = np.random.rand(
+            *[dim if isinstance(dim, int) else 1 for dim in input_shape]
+        ).astype(np.float32)
     outputs = session.run(None, input_data)
     print(f"Model inference succeeded.")
 except Exception as e:
     print(f"Model inference failed: {e}")
-    # exit(1)        
 
-print("\n>> Model I/O")
+print("\n>> Model Session I/O")
+print("input:")
+for input in session.get_inputs():
+    print(input.name, input.shape, input.type)
+print("output:")
+for output in session.get_outputs():
+    print(output.name, output.shape, output.type)
+
+print("\n>> Model Graph I/O")
 print("input:")
 for input in model.graph.input:
     print(input.name, input.type)
