@@ -167,3 +167,4 @@ test/
 *.bin
 *.onnx
 *.tflite
+test*
